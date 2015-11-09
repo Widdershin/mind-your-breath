@@ -16,6 +16,26 @@ var {
   View,
 } = React;
 
+function view (count) {
+  var dynamicStyles = StyleSheet.create({
+    orb: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10,
+      backgroundColor: '#663399',
+      height: 200 + count * 10,
+      width: 200 + count * 10,
+      borderRadius: 100 + count * 5
+    }
+  })
+
+  return (
+    <View style={styles.container}>
+      <Text style={dynamicStyles.orb} selector="button"></Text>
+    </View>
+  );
+}
+
 
 function main ({RN}) {
   var count$ = RN.select('button').events('press')
@@ -23,11 +43,7 @@ function main ({RN}) {
     .scan((total, _) => total + 1);
 
   return {
-    RN: count$.map(count => (
-      <View style={styles.container}>
-        <Text style={styles.welcome} selector="button">Wow such react native cycle {count}</Text>
-      </View>
-    ))
+    RN: count$.map(view)
   };
 }
 
@@ -42,6 +58,10 @@ var styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
+    backgroundColor: '#663399',
+    height: 200,
+    width: 200,
+    borderRadius: 100
   },
   instructions: {
     textAlign: 'center',
