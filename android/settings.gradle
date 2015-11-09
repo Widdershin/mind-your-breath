@@ -1,0 +1,3 @@
+rootProject.name = 'MindYourBreath'
+
+include ':app'
