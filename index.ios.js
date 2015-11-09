@@ -4,6 +4,9 @@
  */
 'use strict';
 
+import Cycle from '@cycle/core';
+import Rx from 'rx';
+
 var React = require('react-native');
 var {
   AppRegistry,
@@ -17,7 +20,7 @@ var MindYourBreath = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to React Plative!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
