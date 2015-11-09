@@ -18,12 +18,16 @@ var {
 
 
 function main ({RN}) {
+  var count$ = RN.select('button').events('press')
+    .startWith(0)
+    .scan((total, _) => total + 1);
+
   return {
-    RN: Rx.Observable.just(
+    RN: count$.map(count => (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Wow such react native cycle</Text>
+        <Text style={styles.welcome} selector="button">Wow such react native cycle {count}</Text>
       </View>
-    )
+    ))
   };
 }
 
