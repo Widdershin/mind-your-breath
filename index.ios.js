@@ -5,6 +5,7 @@
 'use strict';
 
 import Cycle from '@cycle/core';
+import {makeReactNativeDriver} from '@cycle/react-native';
 import Rx from 'rx';
 
 var React = require('react-native');
@@ -15,24 +16,16 @@ var {
   View,
 } = React;
 
-var MindYourBreath = React.createClass({
-  render: function() {
-    return (
+
+function main ({RN}) {
+  return {
+    RN: Rx.Observable.just(
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Plative!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Text style={styles.welcome}>Wow such react native cycle</Text>
       </View>
-    );
-  }
-});
+    )
+  };
+}
 
 var styles = StyleSheet.create({
   container: {
@@ -53,4 +46,6 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('MindYourBreath', () => MindYourBreath);
+Cycle.run(main, {
+  RN: makeReactNativeDriver('MindYourBreath')
+});
