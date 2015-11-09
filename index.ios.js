@@ -14,6 +14,7 @@ var {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } = React;
 
 function view (count) {
@@ -31,16 +32,32 @@ function view (count) {
 
   return (
     <View style={styles.container}>
-      <Text style={dynamicStyles.orb} selector="button"></Text>
+      <TouchableOpacity style={dynamicStyles.orb} activeOpacity={0.9} selector="button"></TouchableOpacity>
     </View>
   );
 }
 
 
 function main ({RN}) {
-  var count$ = RN.select('button').events('press')
+  var press$ = RN.select('button').events('pressIn');
+  var release$ = RN.select('button').events('pressOut');
+
+  var pressed$ = Rx.Observable.merge(
+    press$.map(_ => true),
+    release$.map(_ => false)
+  ).startWith(false);
+
+  var rate = 0.2;
+
+  var change$ = Rx.Observable.merge(
+    press$.map(_ => +rate),
+    release$.map(_ => -rate)
+  ).startWith(0);
+
+  var count$ = Rx.Observable.interval(1000 / 60)
     .startWith(0)
-    .scan((total, _) => total + 1);
+    .withLatestFrom(change$, (_, change) => change)
+    .scan((total, change) => total + change);
 
   return {
     RN: count$.map(view)
